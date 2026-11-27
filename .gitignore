@@ -1,0 +1,23 @@
+# 运行时状态与产物（不提交）
+data/
+out/
+traces/
+tests/last_report.json
+
+# 本地配置：提交模板 config.example.json，真实配置不入库
+config.json
+config.json.bak*
+data/backups/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

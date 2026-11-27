@@ -1,0 +1,217 @@
+{
+  "profile": {
+    "role": "",
+    "interests": [],
+    "avoid": [],
+    "custom_instructions": "",
+    "output_language": "zh"
+  },
+  "budget": {
+    "tokens_per_run": 60000,
+    "tokens_per_day": 200000,
+    "on_exceed": "degrade",
+    "output_reserve_tokens": 900
+  },
+  "topics": [],
+  "ai": {
+    "enabled": true,
+    "plan_queries": true,
+    "query_ttl_hours": 24,
+    "max_queries": 6,
+    "triage": true,
+    "triage_batch_size": 40
+  },
+  "sources": {
+    "github": {
+      "enabled": true,
+      "topics": [
+        "llm-agent"
+      ],
+      "languages": [],
+      "since_days": 14,
+      "min_stars": 80,
+      "limit": 24,
+      "token_env": "GITHUB_TOKEN"
+    },
+    "hn": {
+      "enabled": true,
+      "queries": [],
+      "min_points": 20,
+      "since_hours": 48,
+      "limit": 15
+    },
+    "rss": [],
+    "page": {
+      "enabled": false,
+      "targets": [],
+      "max_bytes": 2000000
+    },
+    "auto": {
+      "enabled": true,
+      "max_feeds": 6,
+      "ttl_hours": 168,
+      "allow_unknown": false,
+      "validate": true,
+      "timeout": 15
+    }
+  },
+  "filter": {
+    "keywords": [],
+    "block_keywords": [],
+    "max_items_per_run": 8,
+    "gates": {
+      "relevance": {
+        "floor": 4.0,
+        "weight": 0.45
+      },
+      "importance": {
+        "floor": 3.0,
+        "weight": 0.25
+      },
+      "novelty": {
+        "floor": 3.0,
+        "weight": 0.15
+      },
+      "actionability": {
+        "floor": 3.0,
+        "weight": 0.15
+      }
+    },
+    "first_run_floor_discount": 1.5,
+    "coarse_keep_ratio": 0.28,
+    "coarse_min_keep": 12,
+    "max_candidates_for_llm": 40,
+    "source_quota_ratio": 0.6,
+    "coarse_source_floor": true,
+    "language_mix": {
+      "enabled": true,
+      "zh_ratio": 0.34
+    },
+    "confidence": {
+      "immediate": 0.8,
+      "daily": 0.5,
+      "archive_below": 0.35
+    },
+    "silence": {
+      "enabled": true,
+      "min_confidence": 0.55
+    }
+  },
+  "output": {
+    "creator": {
+      "enabled": true,
+      "min_score": 5.0,
+      "max_candidates": 6
+    }
+  },
+  "cluster": {
+    "enabled": true,
+    "window_hours": 72,
+    "max_members": 12
+  },
+  "dedupe": {
+    "title_threshold": 0.8,
+    "length_ratio_max": 0.3,
+    "short_title_words": 5,
+    "window_hours": 24,
+    "keep": "earliest"
+  },
+  "watermark": {
+    "enabled": true,
+    "overlap_hours": 6,
+    "max_backfill_hours": 168
+  },
+  "llm": {
+    "enabled": false,
+    "base_url": "https://api.deepseek.com/v1",
+    "model": "deepseek-chat",
+    "api_key_env": "LLM_API_KEY",
+    "temperature": 0.0,
+    "timeout": 90,
+    "max_retries": 2,
+    "max_input_chars": 1800,
+    "max_output_tokens": 1200,
+    "price_per_1k_in": 0,
+    "price_per_1k_out": 0
+  },
+  "channels": {
+    "feishu": {
+      "enabled": false,
+      "mode": "webhook",
+      "webhook_env": "FEISHU_WEBHOOK",
+      "secret_env": "FEISHU_SECRET",
+      "app_id_env": "FEISHU_APP_ID",
+      "app_secret_env": "FEISHU_APP_SECRET",
+      "receive_id": "",
+      "receive_id_type": "chat_id",
+      "api_base": "https://open.feishu.cn",
+      "tasks": {
+        "enabled": false,
+        "min_actionability": 7.0,
+        "min_confidence": 0.6,
+        "max_per_run": 2,
+        "tasklist_guid": "",
+        "assignee_open_id": "",
+        "due_hours": 0,
+        "dry_run": false
+      }
+    },
+    "dingtalk": {
+      "enabled": false,
+      "webhook_env": "DINGTALK_WEBHOOK",
+      "secret_env": "DINGTALK_SECRET",
+      "api_base": "https://oapi.dingtalk.com"
+    },
+    "telegram": {
+      "enabled": false,
+      "bot_token_env": "TELEGRAM_BOT_TOKEN",
+      "chat_id_env": "TELEGRAM_CHAT_ID"
+    },
+    "heartbeat": {
+      "enabled": true,
+      "after_empty_runs": 2
+    }
+  },
+  "schedule": {
+    "mode": "times",
+    "times": [
+      "08:30"
+    ],
+    "interval_minutes": 120,
+    "active_hours": [
+      "07:30",
+      "23:00"
+    ],
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "timezone": "Asia/Shanghai",
+    "briefing": {
+      "enabled": false,
+      "time": "21:30"
+    }
+  },
+  "storage": {
+    "db": "data/intel.db",
+    "out_dir": "out",
+    "trace_dir": "traces"
+  },
+  "observability": {
+    "trace_enabled": true,
+    "log_item_decisions": true,
+    "pii_redact": true
+  },
+  "runtime": {
+    "http_timeout": 25,
+    "http_retries": 3,
+    "retry_backoff_base": 0.8,
+    "retry_jitter": 0.3,
+    "source_deadline_seconds": 90
+  }
+}
