@@ -312,7 +312,7 @@ def _write_service_files(cfg: dict[str, Any]) -> dict[str, Any]:
         '-RestartInterval (New-TimeSpan -Minutes 1) '
         '-AllowStartIfOnBatteries -DontStopIfGoingOnBatteries\n'
         'Register-ScheduledTask -TaskName "IntelAgent" -Action $action -Trigger $trigger '
-        '-Settings $settings -Description "Intel Agent scheduled run" -Force\n'
+        '-Settings $settings -Description "Intel Agent scheduled run" -ErrorAction Stop -Force\n'
         'Write-Host "Installed scheduled task: IntelAgent"\n',
         encoding="utf-8")
     written.append(str(win))
