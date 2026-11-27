@@ -248,7 +248,9 @@ def _start_supervisor(dry_run: bool = False) -> dict[str, Any]:
         return {"ok": False, "detail": "配置未通过校验：" + "；".join(errors[:3])}
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    cmd = [sys.executable, str(ROOT / "main.py"), "schedule"]
+    # -u：stdout 进文件时 Python 是块缓冲，「下次运行」这些行会积在缓冲里，
+    # 「查看日志」长时间看不到任何东西，故障排查全瞎。
+    cmd = [sys.executable, "-u", str(ROOT / "main.py"), "schedule"]
     if dry_run:
         cmd.append("--dry-run")
     flags = 0
