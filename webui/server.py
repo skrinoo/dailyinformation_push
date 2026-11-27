@@ -297,12 +297,15 @@ def _write_service_files(cfg: dict[str, Any]) -> dict[str, Any]:
 
     # 用 Register-ScheduledTask 而不是 schtasks /TR：路径含空格时后者要套三层引号，
     # 复制粘贴极易坏掉；PowerShell 的 -Execute / -Argument 是两个独立参数，不会歧义。
+    # 动作包一层 cmd /c 把 stdout/stderr 追加进 supervisor.log——计划任务本身不收集输出，
+    # 不重定向的话 main.py schedule 的日志（含每次失败的堆栈）就无处可看。
     win = SERVICE_DIR / "install-task.ps1"
+    log = str(SUPERVISOR_LOG)
     win.write_text(
         "# Start at logon; restart every minute on failure. Run as Administrator:\n"
         "#   powershell -ExecutionPolicy Bypass -File install-task.ps1\n"
-        '$action = New-ScheduledTaskAction -Execute "' + py + '" '
-        "-Argument '\"" + main + "\" schedule' "
+        "$action = New-ScheduledTaskAction -Execute 'cmd.exe' "
+        "-Argument '/c \"\"" + py + "\" \"" + main + "\" schedule >> \"" + log + "\" 2>&1\"' "
         '-WorkingDirectory "' + str(ROOT) + '"\n'
         '$trigger = New-ScheduledTaskTrigger -AtLogOn\n'
         '$settings = New-ScheduledTaskSettingsSet -RestartCount 3 '
