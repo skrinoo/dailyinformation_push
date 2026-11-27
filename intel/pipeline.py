@@ -211,7 +211,8 @@ def run_once(
         store.finish_run(run_id, fetched=len(raw_items), after_dedupe=len(fresh),
                          clustered=0, gated=0, kept=0, pushed=0, status="empty",
                          note="AI 初筛后无候选", tokens=budget.used_run)
-        watermark.advance(fresh, store, topic_id)
+        if not dry_run:
+            watermark.advance(fresh, store, topic_id)
         return _finish(cfg, store, tracer, run_id, result, [], [], started, dry_run, own_store, budget)
 
     # ---------- 6. L2 事件簇 ----------
@@ -239,7 +240,8 @@ def run_once(
         store.finish_run(run_id, fetched=len(raw_items), after_dedupe=len(deduped),
                          clustered=len(clusters), gated=0, kept=0, pushed=0,
                          status="empty", note="粗排后无候选", tokens=budget.used_run)
-        watermark.advance(fresh, store, topic_id)
+        if not dry_run:
+            watermark.advance(fresh, store, topic_id)
         return _finish(cfg, store, tracer, run_id, result, [], [], started, dry_run, own_store, budget)
 
     # ---------- 8. 四闸判定 ----------
@@ -385,8 +387,11 @@ def run_once(
                      status="ok", note="；".join(note_bits),
                      cost_usd=judge_stats.get("cost_usd", 0.0),
                      tokens=budget.used_run)
-    # 水位线只推进到「处理过的」条目，未处理的下一轮还能进来
-    watermark.advance(fresh, store, topic_id)
+    # 水位线只推进到「处理过的」条目，未处理的下一轮还能进来。
+    # dry-run 是预览：不能吃掉水位线，否则「先 --dry-run 看报告，再去掉它真推」
+    # 这条 README 流程会永远推不出东西——真跑时全是「已看过」。
+    if not dry_run:
+        watermark.advance(fresh, store, topic_id)
 
     return _finish(cfg, store, tracer, run_id, result, picked, rejected, started, dry_run,
                    own_store, budget)
