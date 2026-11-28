@@ -9,7 +9,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white)](https://www.python.org/)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
-![Tests](https://img.shields.io/badge/tests-12%20suites%20%C2%B7%2025%20cases-success)
+![Tests](https://img.shields.io/badge/tests-11%20suites%20%C2%B7%2025%20cases-success)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 ![控制台](docs/images/console.png)
